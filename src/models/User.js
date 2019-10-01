@@ -40,5 +40,17 @@ UserSchema.pre('save', async function(next){
     return next()
 })
 
+UserSchema.pre('find', async function(next){
+    user = this
+    console.log('bateu aqui!!!!!!!!!!!!!!!!!!!!');
+    
+    // se nao teve alteração no campo senha, continua - next()
+    if(!user.isModified('password')) return next()
+    
+    //criptografa a senha
+    user.password = await bcrypt.hash(user.password, 10)
+    return next()
+})
+
 UserSchema.plugin(mongoosePaginate)
 mongoose.model('User', UserSchema)
