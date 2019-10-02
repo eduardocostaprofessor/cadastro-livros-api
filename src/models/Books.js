@@ -21,12 +21,10 @@ const BookSchema = new mongoose.Schema({
     },
     alterAt : {
         type : Date,
-        default : Date.now(),
         required: false
     },
-    lastAlterBy : {
-        type : Date,
-        default : Date.now(),
+    lastAlterBy : {//userId
+        type : String,
         required: false
     }
 })

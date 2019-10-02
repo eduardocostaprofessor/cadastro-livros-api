@@ -58,11 +58,11 @@ routes.delete('/users/:id', UserController.delete)
 
 
 //books
-routes.get('/notes', BookController.readAll)
-routes.get('/notes/:id', BookController.read)
-routes.post('/notes', BookController.insert)
-routes.put('/notes/:id', BookController.update)
-routes.delete('/notes/:id', BookController.delete)
+routes.get('/books', BookController.readAll)
+routes.get('/books/:id', BookController.read)
+routes.post('/books', BookController.insert)
+routes.put('/books/:id', BookController.update)
+routes.delete('/books/:id', BookController.delete)
 
 
 module.exports = routes

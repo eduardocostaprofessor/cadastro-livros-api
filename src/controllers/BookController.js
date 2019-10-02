@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 //model que vai usar
-const Note = mongoose.model('Book')
+const Book = mongoose.model('Book')
 
 
 module.exports = {
@@ -9,29 +9,39 @@ module.exports = {
     async readAll(req, res) {
         const { page = 1 } = req.query
         const userId = req.body.userId
-        await Book.find({userId})
+        await Book.find({ userId })
         notes = await Book.paginate({}, { page, limit: 5 })
 
         return res.json(notes)
     },
 
     async read(req, res) {
-        const userId = req.body.userId
-        const noteId = req.params.id
+        const bookId = req.params.id
 
-        const notes = await Book.find({ _id: noteId, userId })
+        try {
+            const books = await Book.find({ _id: bookId })
 
-        return res.json(notes)
+            if(books.length == 0) return res.json({ error: 'Livro não registrado' })
+
+            return res.json(books)
+        } catch (error) {
+            return res.json({ error: 'Erro ao buscar o livro' })
+        }
+
     },
 
     async insert(req, res) {
+        const books = req.body;
 
-        if (typeof req.body.userId === "undefined")
-            return res.json({ error: "favor informar o usuário" })
+        if (typeof books.userId === "undefined") return res.json({ error: "favor informar o usuário" })
 
-        const notes = await Book.create(req.body)
+        try {
+            const bookInserted = await Book.create(books)
 
-        return res.json(notes)
+            return res.json(bookInserted)
+        } catch (error) {
+            return res.json({error: 'Erro ao cadastrar o livro'})
+        }
     },
 
     async update(req, res) {
@@ -40,8 +50,16 @@ module.exports = {
     },
 
     async delete(req, res) {
-        await Book.findByIdAndRemove(req.params.id)
+        
+        try {
+            if (!await Book.findByIdAndRemove(req.params.id)) return res.json({ error: 'Livro não registrado'} )
+            
+            await Book.findByIdAndRemove(req.params.id)
+            
+            return res.json('Apagado com sucesso')
+        } catch (error) {
+            return res.json({ error: 'Erro ao apagar o livro' })
+        }
 
-        return res.json('Apagado com sucesso')
     }
 }
