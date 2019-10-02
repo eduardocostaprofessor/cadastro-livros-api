@@ -9,12 +9,16 @@ app.use(cors())
 
 let porta = process.env.PORT || 3002
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 // iniciando o DB
 mongoose.connect(
     'mongodb://localhost:27017/controle-de-livros', 
     {useNewUrlParser: true} 
-)
-// models
+    )
+    // models
 requireDir('./src/models');
 
 //Rotas

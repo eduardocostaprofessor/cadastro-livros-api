@@ -30,15 +30,21 @@ module.exports = {
     },
 
     async update(req, res) {
-
+        const { password, ...user } = req.body
         console.log('update');
         
         try {
-            const users = await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
-
-            return res.json(users)
+            if( await User.findOne( {_id : req.params.id} ) ) {
+                const hash = await bcrypt.hashSync(password, 10)
+                user.password = hash
+                await User.updateOne({_id : req.params.id}, user, { new: true })
+                user.password = undefined
+                
+                return res.json(user)
+            }
         } catch (error) {
             return res.json({error: 'Usuário não encontrado'})    
+            // return res.json({error: error})
         }
     },
 
