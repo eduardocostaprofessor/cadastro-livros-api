@@ -1,8 +1,12 @@
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate')
 
-const BookSchema = new mongoose.Schema({
+const BookOutSchema = new mongoose.Schema({
     title : {
+        type : String,
+        required : true
+    },
+    turma : {
         type : String,
         required : true
     },
@@ -13,6 +17,10 @@ const BookSchema = new mongoose.Schema({
     userId : {
         type: String,
         required : false
+    },
+    bookId : {
+        type: String,
+        required : true
     },
     createdAt : {
         type : Date,
@@ -29,5 +37,5 @@ const BookSchema = new mongoose.Schema({
     }
 })
 
-BookSchema.plugin(mongoosePaginate)
-mongoose.model('Book', BookSchema)
+BookOutSchema.plugin(mongoosePaginate)
+mongoose.model('BookOut', BookOutSchema)

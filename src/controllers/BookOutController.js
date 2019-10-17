@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 //model que vai usar
-const Book = mongoose.model('Book');
+const BookOut = mongoose.model('BookOut')
 
 
 module.exports = {
@@ -9,8 +9,8 @@ module.exports = {
     async readAll(req, res) {
         const { page = 1 } = req.query
         const userId = req.body.userId
-        await Book.find({ userId })
-        notes = await Book.paginate({}, { page, limit: 5 })
+        await BookOut.find({ userId })
+        notes = await BookOut.paginate({}, { page, limit: 5 })
 
         return res.json(notes)
     },
@@ -19,7 +19,7 @@ module.exports = {
         const bookId = req.params.id
 
         try {
-            const books = await Book.find({ _id: bookId })
+            const books = await BookOut.find({ _id: bookId })
 
             if(books.length == 0) return res.json({ error: 'Livro não registrado' })
 
@@ -36,25 +36,26 @@ module.exports = {
         // if (typeof books.userId === "undefined") return res.json({ error: "favor informar o usuário" })
 
         try {
-            const bookInserted = await Book.create(books)
+            const bookInserted = await BookOut.create(books)
 
             return res.json(bookInserted)
         } catch (error) {
-            return res.json({error: 'Erro ao cadastrar o livro'})
+            // return res.json({error: 'Erro ao cadastrar o livro'})
+            return res.json({error: error})
         }
     },
 
     async update(req, res) {
-        const notes = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        const notes = await BookOut.findByIdAndUpdate(req.params.id, req.body, { new: true })
         return res.json(notes)
     },
 
     async delete(req, res) {
         
         try {
-            if (!await Book.findByIdAndRemove(req.params.id)) return res.json({ error: 'Livro não registrado'} )
+            if (!await BookOut.findByIdAndRemove(req.params.id)) return res.json({ error: 'Livro não registrado'} )
             
-            await Book.findByIdAndRemove(req.params.id)
+            await BookOut.findByIdAndRemove(req.params.id)
             
             return res.json('Apagado com sucesso')
         } catch (error) {

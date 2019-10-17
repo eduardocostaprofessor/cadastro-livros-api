@@ -6,6 +6,7 @@ const routes = express.Router()
  */
 const UserController = require('./controllers/UserController')
 const BookController = require('./controllers/BookController')
+const BookOutController = require('./controllers/BookOutController')
 
 /*
  * rotas
@@ -64,5 +65,7 @@ routes.post('/books', BookController.insert)
 routes.put('/books/:id', BookController.update)
 routes.delete('/books/:id', BookController.delete)
 
+//books out
+routes.post('/booksOut', BookOutController.insert)
 
 module.exports = routes
