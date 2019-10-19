@@ -14,6 +14,7 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "express-swagger-generator": "^1.1.15",
     "mongoose": "^5.6.1",
