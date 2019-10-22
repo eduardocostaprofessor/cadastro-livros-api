@@ -6,7 +6,7 @@ module.exports = {
 
     async readAll(req, res) {
         const { page = 1 } = req.query
-        const users = await User.paginate({}, { page, limit: 5 })
+        const users = await User.paginate({}, { page, limit: 5000 })
         return res.json(users)
     },
 
